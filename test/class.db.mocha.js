@@ -312,8 +312,8 @@ describe('Class / CouchDB:', function() {
             var id = uid(7);
             db.save(id, {}, function(err, res) {
                 if (err) return done(err);
-                highland.pipeThrough([res], db.streamRemove()).on('data', function(doc) {
-                    doc.should.be.type('object').with.property('_id', id);
+                highland.pipeThrough([res], db.streamRemove()).on('data', function(res) {
+                    res.should.be.type('object').with.property('_id', id);
                     done();
                 });
             }).should.equal(db);
@@ -325,8 +325,8 @@ describe('Class / CouchDB:', function() {
                 if (err) return done(err);
                 highland.pipeThrough([{
                     id: res.id
-                }], db.streamRemove()).on('data', function(doc) {
-                    doc.should.be.type('object').with.property('_id', id);
+                }], db.streamRemove()).on('data', function(res) {
+                    res.should.be.type('object').with.property('_id', id);
                     done();
                 });
             }).should.equal(db);

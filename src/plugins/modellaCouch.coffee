@@ -71,7 +71,6 @@ module.exports = (Model) ->
      * @return {this}
     ###
     Model.save = (done = ->) ->
-        db = @db()
         @db().saveAndRead(@toDoc(), (err, res) =>
             @_onSaved(err, res, done)
         )
@@ -83,7 +82,6 @@ module.exports = (Model) ->
      * @return {this}
     ###
     Model.update = (done = ->) ->
-        db = @db()
         @db().saveAndRead(@primary(), @toDoc(), (err, res) =>
             @_onSaved(err, res, done)
         )
@@ -93,6 +91,7 @@ module.exports = (Model) ->
      * Route remove to CouchDB.
     ###
     Model.remove = (done = ->) ->
+        db = @db()
         @db().remove(@primary(), (err, res) ->
             # TODO: handle conflict nicely.
             return done(db.httpError(err)) if err

@@ -91,11 +91,9 @@ module.exports = function(Model) {
    * @return {this}
    */
   Model.save = function(done) {
-    var db;
     if (done == null) {
       done = function() {};
     }
-    db = this.db();
     this.db().saveAndRead(this.toDoc(), (function(_this) {
       return function(err, res) {
         return _this._onSaved(err, res, done);
@@ -110,11 +108,9 @@ module.exports = function(Model) {
    * @return {this}
    */
   Model.update = function(done) {
-    var db;
     if (done == null) {
       done = function() {};
     }
-    db = this.db();
     this.db().saveAndRead(this.primary(), this.toDoc(), (function(_this) {
       return function(err, res) {
         return _this._onSaved(err, res, done);
@@ -127,9 +123,11 @@ module.exports = function(Model) {
    * Route remove to CouchDB.
    */
   Model.remove = function(done) {
+    var db;
     if (done == null) {
       done = function() {};
     }
+    db = this.db();
     this.db().remove(this.primary(), function(err, res) {
       if (err) {
         return done(db.httpError(err));
